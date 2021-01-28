@@ -34,7 +34,8 @@ namespace HelloGameT
                 (float)random.NextDouble(),
                 (float)random.NextDouble()
                 );
-            
+            ballVelocity.Normalize();
+            ballVelocity *= 100;
 
             base.Initialize();
         }
@@ -44,7 +45,10 @@ namespace HelloGameT
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            ballTexture = Content.Load<Texture2D>("SoccerBall");
         }
+
+
 
         protected override void Update(GameTime gameTime)
         {
@@ -52,7 +56,17 @@ namespace HelloGameT
                 Exit();
 
             // TODO: Add your update logic here
+            ballPosition += (float)gameTime.ElapsedGameTime.TotalSeconds * ballVelocity;
+            if(ballPosition.X < GraphicsDevice.Viewport.X || ballPosition.X > GraphicsDevice.Viewport.Width - 64)
+            {
 
+                ballPosition.X *= -1; 
+            }
+            if (ballPosition.Y < GraphicsDevice.Viewport.X || ballPosition.Y > GraphicsDevice.Viewport.Height - 64)
+            {
+
+                ballVelocity.Y *= -1;
+            }
             base.Update(gameTime);
         }
 
@@ -61,7 +75,9 @@ namespace HelloGameT
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(ballTexture, ballPosition, Color.White);
+            _spriteBatch.End();
             base.Draw(gameTime);
         }
     }
