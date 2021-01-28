@@ -8,17 +8,33 @@ namespace HelloGameT
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private Vector2 ballPosition;
+        private Vector2 ballVelocity;
+        private Texture2D ballTexture;
 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            Window.Title = "Hello Game";
         }
 
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            ballPosition = new Vector2
+                (
+                GraphicsDevice.Viewport.Width /2,
+                GraphicsDevice.Viewport.Height /2
+                );
+            System.Random random = new System.Random();
+            ballVelocity = new Vector2
+                (
+                (float)random.NextDouble(),
+                (float)random.NextDouble()
+                );
+            
 
             base.Initialize();
         }
